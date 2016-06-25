@@ -1,8 +1,8 @@
 package datalicious.com.news;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -10,18 +10,23 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        Thread navThread=new Thread(new Runnable() {
+        Thread navThread = new Thread(){
             @Override
             public void run() {
-              //  navigateToHomeScreen();
+                try {
+                    sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                navigateToHomeScreen();
             }
-        });
-     navThread.start();
+        };
+        navThread.start();
     }
 
-    private void navigateToHomeScreen(){
-        Intent intent=new Intent(this, null);
-        finish();
+    private void navigateToHomeScreen() {
+        Intent intent = new Intent(this, HomeScreen.class);
         startActivity(intent);
+        finish();
     }
 }
