@@ -1,4 +1,4 @@
-package datalicious.com.news;
+package screen;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import datalicious.com.news.R;
 
 public class HomePagerFragment extends Fragment {
     @Nullable
@@ -39,6 +41,14 @@ public class HomePagerFragment extends Fragment {
         Fragment page;
         String title;
 
+        public Fragment getPage() {
+            return page;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
         public Page(Fragment page, String title) {
             this.page = page;
             this.title = title;
@@ -54,10 +64,15 @@ public class HomePagerFragment extends Fragment {
             super(fm);
             this.tabLayout = new WeakReference<>(tabLayout);
             pages = new ArrayList<>(4);
-            pages.add(new Page(new YouTubeFragment(), "Blog"));
+            pages.add(new Page(new BlogFeedFragment(), "Blog"));
             pages.add(new Page(new YouTubeFragment(), "YouTube"));
             pages.add(new Page(new YouTubeFragment(), "Twitter"));
             pages.add(new Page(new YouTubeFragment(), "Pinterest"));
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return pages.get(position).getTitle();
         }
 
         /**
@@ -67,7 +82,7 @@ public class HomePagerFragment extends Fragment {
          */
         @Override
         public Fragment getItem(int position) {
-            return pages.get(position).page;
+            return pages.get(position).getPage();
         }
 
         /**
