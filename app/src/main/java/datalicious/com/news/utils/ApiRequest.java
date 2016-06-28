@@ -21,28 +21,32 @@ public class ApiRequest {
 
     public static final String TAG_NETWORK_EXCEPTION = "tag_network_exception";
 
-    public  static void getStringResponse(final Context context, String url, final ApiCallback callback, int methodType,final String tag) {
+    public static void getStringResponse(final Context context, String url, final ApiCallback callback, int methodType, final String tag) {
         if (validateMethod(methodType)) {
             StringRequest stringRequest = new StringRequest(methodType, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            callback.onResult(response, 200,tag);
+                            if (callback != null) {
+                                callback.onResult(response, 200, tag);
+                            }
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    callback.onError(error.getLocalizedMessage(), error.networkResponse.statusCode, tag);
+                    if (callback != null&&error!=null) {
+                        callback.onError(error.getLocalizedMessage(), error==null?0: error.networkResponse.statusCode, tag);
+                    }
                     error.printStackTrace();
                 }
             });
             Communicator.getInstance(context).addToRequestQueue(context, stringRequest);
         } else {
-            callback.onResult("Method type not supported", 400,tag);
+            callback.onResult("Method type not supported", 400, tag);
         }
     }
 
-    public static void getJSONResponse(final Context context, String url, final ApiCallback callback, int methodType,final String tag) {
+    public static void getJSONResponse(final Context context, String url, final ApiCallback callback, int methodType, final String tag) {
         if (validateMethod(methodType)) {
 
             JsonObjectRequest stringRequest = new JsonObjectRequest(methodType, url, null,
@@ -57,14 +61,16 @@ public class ApiRequest {
                             } catch (JSONException e) {
                                 Log.e(TAG_NETWORK_EXCEPTION, e.getLocalizedMessage());
                             }
-
-                            callback.onResult(response, statusCode, tag);
+                            if (callback != null) {
+                                callback.onResult(response, statusCode, tag);
+                            }
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
-                    callback.onError(error.getLocalizedMessage(), error.networkResponse.statusCode, tag);
+                    if (callback != null) {
+                        callback.onError(error.getLocalizedMessage(), error==null?0:error.networkResponse.statusCode, tag);
+                    }
                     error.printStackTrace();
                 }
             });

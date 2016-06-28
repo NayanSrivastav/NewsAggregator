@@ -3,10 +3,10 @@ package screen;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,9 @@ import java.util.List;
 
 import datalicious.com.news.R;
 
-public class HomePagerFragment extends Fragment {
+public class HomePagerFragment extends DataliciousFragment implements SwipeRefreshLayout.OnRefreshListener, IRefresher {
+    private PagerAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,22 +28,40 @@ public class HomePagerFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void setRefreshEnabled(boolean set) {
+        getView().findViewById(R.id.refresh_layout).setEnabled(set);
+    }
 
     public void setUpView(View view) {
         ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
-        PagerAdapter adapter = new PagerAdapter(getChildFragmentManager(), tabLayout);
+        adapter = new PagerAdapter(getChildFragmentManager(), tabLayout,this);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);
         pager.addOnPageChangeListener(adapter);
-        adapter.setTabIcons(tabLayout,0);
+        adapter.setTabIcons(tabLayout, 0);
+        ((SwipeRefreshLayout) view.findViewById(R.id.refresh_layout)).setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        IRefreshListener iRefreshListener = adapter.getCurrentPage();
+        if (iRefreshListener != null) {
+            iRefreshListener.onRefresh();
+        }
+    }
+
+    @Override
+    public void setRefresh(boolean set) {
+        ((SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout)).setRefreshing(set);
     }
 
     private static class Page {
-        Fragment page;
+        DataliciousFragment page;
         String title;
 
-        public Fragment getPage() {
+        public DataliciousFragment getPage() {
             return page;
         }
 
@@ -49,7 +69,7 @@ public class HomePagerFragment extends Fragment {
             return title;
         }
 
-        public Page(Fragment page, String title) {
+        public Page(DataliciousFragment page, String title) {
             this.page = page;
             this.title = title;
         }
@@ -58,11 +78,14 @@ public class HomePagerFragment extends Fragment {
     private static class PagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
 
         WeakReference<TabLayout> tabLayout;
+        WeakReference<HomePagerFragment> homePagerFragment;
         List<Page> pages;
+        int position;
 
-        public PagerAdapter(FragmentManager fm, TabLayout tabLayout) {
+        public PagerAdapter(FragmentManager fm, TabLayout tabLayout, HomePagerFragment homePagerFragment) {
             super(fm);
             this.tabLayout = new WeakReference<>(tabLayout);
+            this.homePagerFragment=new WeakReference<>(homePagerFragment);
             pages = new ArrayList<>(4);
             pages.add(new Page(new BlogFeedFragment(), "Blog"));
             pages.add(new Page(new YouTubeFragment(), "YouTube"));
@@ -81,8 +104,12 @@ public class HomePagerFragment extends Fragment {
          * @param position
          */
         @Override
-        public Fragment getItem(int position) {
+        public DataliciousFragment getItem(int position) {
             return pages.get(position).getPage();
+        }
+
+        DataliciousFragment getCurrentPage() {
+            return getItem(position);
         }
 
         /**
@@ -113,12 +140,14 @@ public class HomePagerFragment extends Fragment {
         @Override
         public void onPageSelected(int position) {
             setTabIcons(tabLayout.get(), position);
+            this.position = position;
         }
 
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            // do nothing
+            if(homePagerFragment.get()!=null)
+            homePagerFragment.get().setRefreshEnabled( state == ViewPager.SCROLL_STATE_IDLE );
         }
     }
 }

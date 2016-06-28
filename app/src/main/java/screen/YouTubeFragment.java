@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import datalicious.com.news.R;
 
-public class YouTubeFragment extends Fragment {
+public class YouTubeFragment extends DataliciousFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -1,11 +1,10 @@
 package screen;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import datalicious.com.news.R;
 
-public class HomeScreen extends AppCompatActivity {
+public class HomeScreen extends DataliciousActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
