@@ -41,17 +41,15 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
         setUpFeed();
     }
 
-    @Override
-    public void onRefresh() {
-        setUpFeed();
-    }
 
-    private void setUpFeed() {
+
+    protected void setUpFeed() {
         if (ConnectionUtils.isConnected(getContext())) {
             dismissSnakebar();
             ApiRequest.getStringResponse(getContext(), BLOG_URL, this, ApiRequest.MethodTypes.GET, BLOG_FEED_TAG);
         } else {
             showSnakebar(getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+            stopRefreshing();
         }
     }
 

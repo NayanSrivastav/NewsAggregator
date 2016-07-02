@@ -39,15 +39,16 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        startLoadingVideos();
+        setUpFeed();
     }
 
-    private void startLoadingVideos() {
+    protected void setUpFeed() {
         if (ConnectionUtils.isConnected(getContext())) {
             dismissSnakebar();
             ApiRequest.getJSONResponse(getContext(), ID_URL + getString(R.string.youtube_key), this, ApiRequest.MethodTypes.GET, FETCH_UPLOAD_ID_TAG);
         } else {
             showSnakebar("No connection available", Snackbar.LENGTH_INDEFINITE);
+            stopRefreshing();
         }
     }
 
@@ -80,6 +81,7 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
                 if (response.has("items")) {
                     adapter.addItem(response.optJSONArray("items"));
                 }
+                stopRefreshing();
                 break;
         }
     }
@@ -90,11 +92,13 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
             ApiRequest.getJSONResponse(getContext(), DETAIL_URL + uploadId + "&key=" + getString(R.string.youtube_key), this, ApiRequest.MethodTypes.GET, FETCH_UPLOAD_DETAILS_TAG);
         } else {
             showSnakebar(getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+            stopRefreshing();
         }
     }
 
     @Override
     public void onError(String request, int httpCode, String tag) {
+        stopRefreshing();
         showSnakebar(ConnectionUtils.isConnected(getContext()) ? "Something went wrong! please retry" : getString(R.string.no_connection), Snackbar.LENGTH_LONG);
     }
 
@@ -128,8 +132,11 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
             holder.tvDetails.setText("");
             holder.imgView.setImageDrawable(null);
             if (snippet != null) {
+                holder.itemView.findViewById(R.id.progress).setVisibility(View.VISIBLE);
+                holder.imgView.setVisibility(View.GONE);
                 final JSONObject thumbnails = snippet.optJSONObject("thumbnails");
-                ImageUtil.setImage(holder.imgView.getContext(), getImageUrl(thumbnails, holder.imgView.getContext()), holder.imgView);
+                ImageUtil.setImage(holder.imgView.getContext(), getImageUrl(thumbnails, holder.imgView.getContext())
+                        , holder.imgView,holder.itemView.findViewById(R.id.progress),0);
                 holder.tvDate.setText(snippet.optString("publishedAt"));
                 holder.tvDetails.setText(snippet.optString("title"));
             }

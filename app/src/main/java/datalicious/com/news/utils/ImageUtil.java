@@ -2,15 +2,12 @@ package datalicious.com.news.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * Created by nayan on 24/2/16.
@@ -26,7 +23,7 @@ public class ImageUtil {
     }
 
     public static void setImage(Context context, String url, final ImageView imageView, View view, int errorResource) {
-        Communicator.getInstance(context).getImageLoader(context).get(url, new ImageRequest(imageView, errorResource));
+        Communicator.getInstance(context).getImageLoader(context).get(url, new ImageRequest(imageView, view, errorResource));
     }
 
     public static class ImageRequest implements ImageLoader.ImageListener {
@@ -76,12 +73,12 @@ public class ImageUtil {
         @Override
         public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
             if (response.getBitmap() != null) {
-                mImageView.setImageBitmap(response.getBitmap());// != null ? crop(response.getBitmap()) : response.getBitmap());
+                mImageView.setImageBitmap(response.getBitmap());
+                if (tempView != null) {
+                    tempView.setVisibility(View.GONE);
+                }
+                mImageView.setVisibility(View.VISIBLE);
             }
-        }
-
-        public Bitmap crop(Bitmap imageBitmap) {
-            return ThumbnailUtils.extractThumbnail(imageBitmap, 280, 200);
         }
 
         /**

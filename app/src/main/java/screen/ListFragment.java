@@ -27,6 +27,12 @@ public abstract class ListFragment extends DataliciousFragment {
         setUpListScroll(recyclerView);
         return view;
     }
+    @Override
+    public void onRefresh() {
+        setUpFeed();
+    }
+
+    protected abstract void setUpFeed();
 
     protected void setUpListScroll(RecyclerView recyclerView){
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
