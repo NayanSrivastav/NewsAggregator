@@ -1,11 +1,16 @@
 package datalicious.com.news.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by nayan on 24/2/16.
@@ -16,12 +21,11 @@ public class ImageUtil {
         setImage(context, url, imageView, 0);
     }
 
-    public  static void setImage(Context context, String url, final ImageView imageView, int errorResource) {
-      setImage(context, url,imageView, null, errorResource);
+    public static void setImage(Context context, String url, final ImageView imageView, int errorResource) {
+        setImage(context, url, imageView, null, errorResource);
     }
 
-    public static void setImage(Context context, String url, final ImageView imageView,View view, int errorResource)
-    {
+    public static void setImage(Context context, String url, final ImageView imageView, View view, int errorResource) {
         Communicator.getInstance(context).getImageLoader(context).get(url, new ImageRequest(imageView, errorResource));
     }
 
@@ -72,8 +76,12 @@ public class ImageUtil {
         @Override
         public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
             if (response.getBitmap() != null) {
-                mImageView.setImageBitmap(response.getBitmap());
+                mImageView.setImageBitmap(response.getBitmap());// != null ? crop(response.getBitmap()) : response.getBitmap());
             }
+        }
+
+        public Bitmap crop(Bitmap imageBitmap) {
+            return ThumbnailUtils.extractThumbnail(imageBitmap, 280, 200);
         }
 
         /**

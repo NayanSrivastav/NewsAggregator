@@ -29,33 +29,11 @@ import datalicious.com.news.utils.rssUtil.RssFeed;
 import datalicious.com.news.utils.rssUtil.RssItem;
 import datalicious.com.news.utils.rssUtil.RssReader;
 
-public class BlogFeedFragment extends DataliciousFragment implements ApiCallback {
+public class BlogFeedFragment extends ListFragment implements ApiCallback {
     private static final String BLOG_URL = "http://blog.datalicious.com/feed/";
     private static final String BLOG_FEED_TAG = "blog_feed";
     private FeedAdapter adapter;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.recycler_view_layoout, container, false);
-        adapter = new FeedAdapter(this);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rec_view);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            }
-
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                setRefreshEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
-            }
-        });
-        return view;
-    }
 
     @Override
     public void onResume() {
@@ -73,7 +51,7 @@ public class BlogFeedFragment extends DataliciousFragment implements ApiCallback
             dismissSnakebar();
             ApiRequest.getStringResponse(getContext(), BLOG_URL, this, ApiRequest.MethodTypes.GET, BLOG_FEED_TAG);
         } else {
-            showSnakebar("No connection available", Snackbar.LENGTH_INDEFINITE);
+            showSnakebar(getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
         }
     }
 
@@ -100,6 +78,12 @@ public class BlogFeedFragment extends DataliciousFragment implements ApiCallback
     public void onError(String request, int httpCode, String tag) {
         showSnakebar("Something went wrong", Snackbar.LENGTH_INDEFINITE);
         stopRefreshing();
+    }
+
+    @Override
+    protected RecyclerView.Adapter getAdapter() {
+        adapter = new FeedAdapter(this);
+        return adapter;
     }
 
     private static class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {

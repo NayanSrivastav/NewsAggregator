@@ -87,8 +87,9 @@ public class HomePagerFragment extends DataliciousFragment implements SwipeRefre
             this.tabLayout = new WeakReference<>(tabLayout);
             this.homePagerFragment=new WeakReference<>(homePagerFragment);
             pages = new ArrayList<>(4);
-            pages.add(new Page(new BlogFeedFragment(), "Blog"));
+
             pages.add(new Page(new YouTubeFragment(), "YouTube"));
+            pages.add(new Page(new BlogFeedFragment(), "Blog"));
             pages.add(new Page(new YouTubeFragment(), "Twitter"));
             pages.add(new Page(new YouTubeFragment(), "Pinterest"));
         }

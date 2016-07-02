@@ -6,10 +6,11 @@ android {
 
     defaultConfig {
         applicationId "datalicious.com.news"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        resValue "string", "youtube_key", "AIzaSyAnoTmO3WDSjXDcNoJlw_axl_Gl48MV3cM"
     }
     buildTypes {
         release {
