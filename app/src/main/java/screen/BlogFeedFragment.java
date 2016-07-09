@@ -37,7 +37,7 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
     protected void setUpFeed() {
         if (ConnectionUtils.isConnected(getContext())) {
             dismissSnakebar();
-            ApiRequest.getStringResponse(getContext(), BLOG_URL, this, ApiRequest.MethodTypes.GET, BLOG_FEED_TAG);
+            ApiRequest.getStringResponse(getContext(), BLOG_URL, this, ApiRequest.MethodTypes.GET, BLOG_FEED_TAG, null, null, null);
         } else {
             showSnakebar(getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
             stopRefreshing();

@@ -1,6 +1,8 @@
 package screen;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -96,7 +98,7 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
         showSnakebar(ConnectionUtils.isConnected(getContext()) ? "Something went wrong! please retry" : getString(R.string.no_connection), Snackbar.LENGTH_LONG);
     }
 
-    public static class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
+    public static class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>implements View.OnClickListener {
         JSONArray response;
         public FeedAdapter() {
             this.response = new JSONArray();
@@ -133,6 +135,8 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
                         , holder.imgView,holder.itemView.findViewById(R.id.progress),0);
                 holder.tvDate.setText(snippet.optString("publishedAt"));
                 holder.tvDetails.setText(snippet.optString("title"));
+                holder.itemView.setOnClickListener(this);
+                holder.itemView.setTag(item.optJSONObject("contentDetails").optString("videoId"));
             }
         }
 
@@ -165,6 +169,18 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
         @Override
         public int getItemCount() {
             return response.length();
+        }
+
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View v) {
+            Intent videoClient = new Intent(Intent.ACTION_VIEW);
+            videoClient.setData(Uri.parse("https://www.youtube.com/watch?v="+v.getTag()));
+            v.getContext().startActivity(videoClient);
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
