@@ -36,12 +36,6 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
         return adapter;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setUpFeed();
-    }
-
     protected void setUpFeed() {
         if (ConnectionUtils.isConnected(getContext())) {
             dismissSnakebar();

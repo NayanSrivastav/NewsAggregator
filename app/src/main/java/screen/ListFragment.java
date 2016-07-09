@@ -25,6 +25,7 @@ public abstract class ListFragment extends DataliciousFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(getAdapter());
         setUpListScroll(recyclerView);
+        setUpFeed();
         return view;
     }
     @Override
@@ -45,6 +46,7 @@ public abstract class ListFragment extends DataliciousFragment {
             }
         });
     }
+
 
     @Override
     public void onResume() {

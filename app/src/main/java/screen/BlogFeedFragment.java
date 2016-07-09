@@ -1,9 +1,9 @@
 package screen;
 
-import android.os.Bundle;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -34,15 +34,6 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
     private static final String BLOG_FEED_TAG = "blog_feed";
     private FeedAdapter adapter;
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setUpFeed();
-    }
-
-
-
     protected void setUpFeed() {
         if (ConnectionUtils.isConnected(getContext())) {
             dismissSnakebar();
@@ -60,7 +51,7 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
                 RssFeed feed = RssReader.read(response);
                 ArrayList<RssItem> rssItems = feed.getRssItems();
                 adapter.setRssItems(rssItems);
-            } catch (SAXException|IOException e) {
+            } catch (SAXException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -80,18 +71,20 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        adapter = new FeedAdapter(this);
+        if (adapter == null) {
+            adapter = new FeedAdapter(this);
+        }
         return adapter;
     }
 
-    private static class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
+    private static class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> implements View.OnClickListener{
 
         List<RssItem> rssItems;
         WeakReference<BlogFeedFragment> blogFeedFragment;
 
         public FeedAdapter(BlogFeedFragment fragment) {
             rssItems = new ArrayList<>();
-            blogFeedFragment=new WeakReference<>(fragment);
+            blogFeedFragment = new WeakReference<>(fragment);
         }
 
         public void setRssItems(List<RssItem> rssItems) {
@@ -102,7 +95,8 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_blog_feed, parent, false),blogFeedFragment);
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_blog_feed,
+                    parent, false), blogFeedFragment);
         }
 
         RssItem getFeed(int position) {
@@ -115,6 +109,8 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
             holder.date.setText(DateUtil.dateToString(rssItem.getPubDate().toString()));
             holder.main.setText(rssItem.getTitle());
             holder.info.setText(Html.fromHtml(rssItem.getDescription()));
+            holder.itemView.setOnClickListener(this);
+            holder.itemView.setTag(rssItem.getLink());
         }
 
 
@@ -123,31 +119,29 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
             return rssItems.size();
         }
 
-
-        static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View v) {
+            // TODO: 27/6/16 remove this
+            if (blogFeedFragment.get() != null && blogFeedFragment.get().getActivity() != null) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getTag().toString()));
+                v.getContext().startActivity(intent);
+            }
+        }
+        static class ViewHolder extends RecyclerView.ViewHolder {
             TextView main, info, date;
-            WeakReference<BlogFeedFragment>  blogFeedFragment;
-            public ViewHolder(@NonNull View itemView, WeakReference<BlogFeedFragment>  blogFeedFragment) {
+            WeakReference<BlogFeedFragment> blogFeedFragment;
+
+            public ViewHolder(@NonNull View itemView, WeakReference<BlogFeedFragment> blogFeedFragment) {
                 super(itemView);
-                this.blogFeedFragment=blogFeedFragment;
+                this.blogFeedFragment = blogFeedFragment;
                 main = (TextView) itemView.findViewById(R.id.main);
                 info = (TextView) itemView.findViewById(R.id.info);
                 date = (TextView) itemView.findViewById(R.id.date);
-                itemView.setOnClickListener(this);
-            }
-
-            /**
-             * Called when a view has been clicked.
-             *
-             * @param v The view that was clicked.
-             */
-            @Override
-            public void onClick(View v) {
-                // TODO: 27/6/16 remove this 
-                if(blogFeedFragment.get()!=null&&blogFeedFragment.get().getActivity()!=null)
-                {
-                    blogFeedFragment.get().showSnakebar("clicked @ "+getLayoutPosition(), Snackbar.LENGTH_LONG);
-                }
             }
         }
     }
