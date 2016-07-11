@@ -28,21 +28,31 @@ public abstract class ListFragment extends DataliciousFragment {
         setUpFeed();
         return view;
     }
+
     @Override
     public void onRefresh() {
         setUpFeed();
+
     }
 
+    @Override
+    protected void stopRefreshing() {
+        super.stopRefreshing();
+    }
+
+    /**
+     * Entry point to start reading various feeds
+     */
     protected abstract void setUpFeed();
 
-    protected void setUpListScroll(RecyclerView recyclerView){
+    protected void setUpListScroll(RecyclerView recyclerView) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             }
 
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                setRefreshEnabled(((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0);
+                setRefreshEnabled(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0);
             }
         });
     }
@@ -51,7 +61,7 @@ public abstract class ListFragment extends DataliciousFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setUpListScroll( (RecyclerView) getView().findViewById(R.id.rec_view));
+        setUpListScroll((RecyclerView) getView().findViewById(R.id.rec_view));
     }
 
     abstract protected RecyclerView.Adapter getAdapter();

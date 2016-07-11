@@ -1,0 +1,75 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <fragment
+            tools:ignore="MissingPrefix"
+            android:id="@+id/map_fragment"
+            android:name="screen.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            map:cameraTargetLat="-33.8408211"
+            map:cameraTargetLng="151.20962970000005"
+            map:title="Datalicious"
+            map:mapType="normal"
+            map:cameraZoom="13" />
+
+        <Button
+            android:id="@+id/navigate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:drawableLeft="@android:drawable/ic_menu_mylocation"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_arrow"
+            android:gravity="left|center_vertical"
+            android:text="Navigate to us" />
+
+        <Button
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_arrow"
+            android:gravity="left|center_vertical"
+            android:text="Email us" />
+
+        <Button
+            android:id="@+id/call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_arrow"
+            android:gravity="left|center_vertical"
+            android:text="Call us" />
+
+        <Button
+            android:id="@+id/contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:drawableLeft="@android:drawable/sym_contact_card"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/ic_arrow"
+            android:gravity="left|center_vertical"
+            android:text="Contact us" />
+    </LinearLayout>
+</ScrollView>

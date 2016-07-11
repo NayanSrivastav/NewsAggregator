@@ -29,14 +29,20 @@ public class HomePagerFragment extends DataliciousFragment implements SwipeRefre
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void setRefreshEnabled(boolean set) {
-        getView().findViewById(R.id.refresh_layout).setEnabled(set);
+        getView().findViewById(R.id.refresh_layout).setEnabled(set && adapter.getCurrentPage() !=
+                adapter.pages.get(adapter.pages.size() - 1).getPage());
     }
 
     public void setUpView(View view) {
         ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager);
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
-        adapter = new PagerAdapter(getChildFragmentManager(), tabLayout,this);
+        adapter = new PagerAdapter(getChildFragmentManager(), tabLayout, this);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);
         pager.addOnPageChangeListener(adapter);
@@ -54,6 +60,7 @@ public class HomePagerFragment extends DataliciousFragment implements SwipeRefre
 
     @Override
     public void setRefresh(boolean set) {
+        if(getView()!=null)
         ((SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout)).setRefreshing(set);
     }
 
@@ -85,13 +92,15 @@ public class HomePagerFragment extends DataliciousFragment implements SwipeRefre
         public PagerAdapter(FragmentManager fm, TabLayout tabLayout, HomePagerFragment homePagerFragment) {
             super(fm);
             this.tabLayout = new WeakReference<>(tabLayout);
-            this.homePagerFragment=new WeakReference<>(homePagerFragment);
-            pages = new ArrayList<>(4);
+            this.homePagerFragment = new WeakReference<>(homePagerFragment);
+            pages = new ArrayList<>(5);
 
-            pages.add(new Page(new YouTubeFragment(), "YouTube"));
+
             pages.add(new Page(new BlogFeedFragment(), "Blog"));
-            pages.add(new Page(new PinterestFragment(), "Pinterest"));
+            pages.add(new Page(new YouTubeFragment(), "YouTube"));
             pages.add(new Page(new TwitterFragment(), "Twitter"));
+            pages.add(new Page(new PinterestFragment(), "Pinterest"));
+            pages.add(new Page(new ContactUsFragment(), "Contact us"));
 
         }
 
@@ -119,17 +128,18 @@ public class HomePagerFragment extends DataliciousFragment implements SwipeRefre
          */
         @Override
         public int getCount() {
-            return 4;
+            return pages.size();
         }
 
         private void setTabIcons(TabLayout tabLayout, int position) {
             if (position < tabLayout.getTabCount()) {
                 int tabCount = 0;
                 tabLayout.getTabAt(tabCount).setIcon(position == tabCount++ ? R.drawable.blog_red : R.drawable.blog);
+
                 tabLayout.getTabAt(tabCount).setIcon(position == tabCount++ ? R.drawable.youtube_red : R.drawable.youtube);
                 tabLayout.getTabAt(tabCount).setIcon(position == tabCount++ ? R.drawable.twitter_red : R.drawable.twitter);
                 tabLayout.getTabAt(tabCount).setIcon(position == tabCount++ ? R.drawable.pinterest_red : R.drawable.pinterest);
-
+                tabLayout.getTabAt(tabCount).setIcon(position == tabCount++ ? R.drawable.contact_us_red : R.drawable.contact_us);
             }
         }
 
@@ -143,13 +153,14 @@ public class HomePagerFragment extends DataliciousFragment implements SwipeRefre
         public void onPageSelected(int position) {
             setTabIcons(tabLayout.get(), position);
             this.position = position;
+            homePagerFragment.get().setRefreshEnabled(position != pages.size() - 1);
         }
 
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if(homePagerFragment.get()!=null)
-            homePagerFragment.get().setRefreshEnabled( state == ViewPager.SCROLL_STATE_IDLE );
+            if (homePagerFragment.get() != null)
+                homePagerFragment.get().setRefreshEnabled(getCurrentPage() != pages.get(pages.size() - 1).getPage() && state == ViewPager.SCROLL_STATE_IDLE);
         }
     }
 }

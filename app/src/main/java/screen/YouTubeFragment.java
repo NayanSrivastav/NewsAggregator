@@ -3,8 +3,6 @@ package screen;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -22,6 +20,7 @@ import datalicious.com.news.R;
 import datalicious.com.news.utils.ApiCallback;
 import datalicious.com.news.utils.ApiRequest;
 import datalicious.com.news.utils.ConnectionUtils;
+import datalicious.com.news.utils.Constants;
 import datalicious.com.news.utils.ImageUtil;
 
 public class YouTubeFragment extends ListFragment implements ApiCallback {
@@ -117,7 +116,7 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_you_tube, parent, false));
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.common_list_item_view, parent, false));
         }
 
         @Override
@@ -146,22 +145,22 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
                 switch (context.getResources().getDisplayMetrics().densityDpi) {
                     case DisplayMetrics.DENSITY_MEDIUM:
                         if (thumbnail.has("medium")) {
-                            url = thumbnail.optJSONObject("medium").optString("url");
+                            url = thumbnail.optJSONObject("medium").optString(Constants.URL);
                         }
                         break;
                     case DisplayMetrics.DENSITY_HIGH:
                         if (thumbnail.has("high")) {
-                            url = thumbnail.optJSONObject("high").optString("url");
+                            url = thumbnail.optJSONObject("high").optString(Constants.URL);
 
                         }
                         break;
                     case DisplayMetrics.DENSITY_XHIGH:
                         if (thumbnail.has("standard")) {
-                            url = thumbnail.optJSONObject("standard").optString("url");
+                            url = thumbnail.optJSONObject("standard").optString(Constants.URL);
                         }
                         break;
                 }
-                url = url.isEmpty() ? (thumbnail.has("default") ? thumbnail.optJSONObject("default").optString("url") : "") : url;
+                url = url.isEmpty() ? (thumbnail.has("default") ? thumbnail.optJSONObject("default").optString(Constants.URL) : "") : url;
             }
             return url;
         }
@@ -178,9 +177,14 @@ public class YouTubeFragment extends ListFragment implements ApiCallback {
          */
         @Override
         public void onClick(View v) {
-            Intent videoClient = new Intent(Intent.ACTION_VIEW);
-            videoClient.setData(Uri.parse("https://www.youtube.com/watch?v="+v.getTag()));
-            v.getContext().startActivity(videoClient);
+            Intent intent=new Intent(v.getContext(),WebViewActivity.class);
+            intent.putExtra("url","https://www.youtube.com/watch?v="+v.getTag() );
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            v.getContext().startActivity(intent);
+
+//            Intent videoClient = new Intent(Intent.ACTION_VIEW);
+//            videoClient.setData(Uri.parse("https://www.youtube.com/watch?v="+v.getTag()));
+//            v.getContext().startActivity(videoClient);
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {

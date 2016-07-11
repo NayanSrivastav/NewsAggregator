@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/aus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Australia"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <TextView
+            android:id="@+id/aus_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Level 8/90 Arthur Street North Sydney NSW 2060 (view on map)" />
+
+        <TextView
+            android:id="@+id/aus_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:gravity="center_vertical"
+            android:text="+61 2 8999 5815" />
+
+        <TextView
+            android:id="@+id/aus_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:gravity="center_vertical"
+            android:text="sydney@datalicious.com" />
+
+        <TextView
+            android:id="@+id/aus_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Australia"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <TextView
+            android:id="@+id/aus_address_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Level 34/140 Williams St Melbourne, VIC, 3000 (view on map)" />
+
+        <TextView
+            android:id="@+id/aus_phone_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:gravity="center_vertical"
+            android:text="+61 3 9999 5741" />
+
+        <TextView
+            android:id="@+id/aus_email_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:gravity="center_vertical"
+            android:text="melbourne@datalicious.com" />
+
+        <TextView
+            android:id="@+id/nz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="New Zealand"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <TextView
+            android:id="@+id/nz_address_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Level 8, 22 Fanshawe Street Auckland Central 1010 (view on map)" />
+
+        <TextView
+            android:id="@+id/nz_phone_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:gravity="center_vertical"
+            android:text="+64 9887 1205" />
+
+        <TextView
+            android:id="@+id/nz_email_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:gravity="center_vertical"
+            android:text="auckland@datalicious.com" />
+
+        <TextView
+            android:id="@+id/ger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Germany"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <TextView
+            android:id="@+id/ger_address_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Germany / Austria / Switzerland Schumannstr. 2, 30177 Hanover (view on map)" />
+
+        <TextView
+            android:id="@+id/ger_phone_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:gravity="center_vertical"
+            android:text="+49 89 / 120 89 56 66" />
+
+        <TextView
+            android:id="@+id/ger_email_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:gravity="center_vertical"
+            android:text=" hanover@datalicious.com" />
+
+        <TextView
+            android:id="@+id/Ind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="India"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <TextView
+            android:id="@+id/ind_address_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="L-148, 5th Main, Sector 6, HSR Layout Bangalore Karnataka- 560102 (view on map)" />
+
+        <TextView
+            android:id="@+id/ind_phone_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:gravity="center_vertical"
+            android:text="+91 804 803 0501" />
+
+        <TextView
+            android:id="@+id/ind_email_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:gravity="center_vertical"
+            android:text="bangalore@datalicious.com" />
+
+        <TextView
+            android:id="@+id/uk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="India"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <TextView
+            android:id="@+id/uk_address_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="London UK" />
+
+        <TextView
+            android:id="@+id/uk_phone_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:gravity="center_vertical"
+            android:text="+44 114 359 7588" />
+
+        <TextView
+            android:id="@+id/uk_email_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:gravity="center_vertical"
+            android:text="london@datalicious.com" />
+
+        <TextView
+            android:id="@+id/sk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="South Korea"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <TextView
+            android:id="@+id/sk_address_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6F. Dong-oh Building. 28, Hyoryeong-ro 77-gil Seocho-gu, Seoul, 06627, Rep. of KOREA (view on map)" />
+
+        <TextView
+            android:id="@+id/sk_phone_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:gravity="center_vertical"
+            android:text="+82 10 8425 1188" />
+
+        <TextView
+            android:id="@+id/sk_email_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:gravity="center_vertical"
+            android:text="seoul@datalicious.com" />
+
+        <TextView
+            android:id="@+id/sng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="South Korea"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
+
+        <TextView
+            android:id="@+id/sng_address_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="55B Amoy St Singapore 069881 (view on map)" />
+
+        <TextView
+            android:id="@+id/sng_phone_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_call"
+            android:gravity="center_vertical"
+            android:text="+65 6655 5663" />
+
+        <TextView
+            android:id="@+id/sng_email_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:gravity="center_vertical"
+            android:text="singapore@datalicious.com" />
+
+    </LinearLayout>
+</ScrollView>

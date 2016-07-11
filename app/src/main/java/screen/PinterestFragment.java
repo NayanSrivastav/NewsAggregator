@@ -22,6 +22,7 @@ import datalicious.com.news.R;
 import datalicious.com.news.utils.ApiCallback;
 import datalicious.com.news.utils.ApiRequest;
 import datalicious.com.news.utils.ConnectionUtils;
+import datalicious.com.news.utils.Constants;
 import datalicious.com.news.utils.ImageUtil;
 
 /**
@@ -103,7 +104,7 @@ public class PinterestFragment extends ListFragment implements ApiCallback {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(parent.getContext()).
-                    inflate(R.layout.fragment_you_tube, parent, false));
+                    inflate(R.layout.common_list_item_view, parent, false));
         }
 
 
@@ -132,8 +133,12 @@ public class PinterestFragment extends ListFragment implements ApiCallback {
         @Override
         public void onClick(View v) {
             if (v.getContext() != null) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pinterest.com/" + v.getTag()));
+                Intent intent=new Intent(v.getContext(),WebViewActivity.class);
+                intent.putExtra(Constants.URL,"https://pinterest.com/" + v.getTag());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pinterest.com/" + v.getTag()));
+//                v.getContext().startActivity(intent);
             }
         }
 

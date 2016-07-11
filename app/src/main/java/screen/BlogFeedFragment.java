@@ -24,6 +24,7 @@ import datalicious.com.news.R;
 import datalicious.com.news.utils.ApiCallback;
 import datalicious.com.news.utils.ApiRequest;
 import datalicious.com.news.utils.ConnectionUtils;
+import datalicious.com.news.utils.Constants;
 import datalicious.com.news.utils.DateUtil;
 import datalicious.com.news.utils.rssUtil.RssFeed;
 import datalicious.com.news.utils.rssUtil.RssItem;
@@ -128,7 +129,9 @@ public class BlogFeedFragment extends ListFragment implements ApiCallback {
         public void onClick(View v) {
             // TODO: 27/6/16 remove this
             if (blogFeedFragment.get() != null && blogFeedFragment.get().getActivity() != null) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getTag().toString()));
+                Intent intent=new Intent(v.getContext(),WebViewActivity.class);
+                intent.putExtra(Constants.URL,v.getTag().toString());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(intent);
             }
         }
