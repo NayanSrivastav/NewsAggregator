@@ -48,8 +48,10 @@ public class ContactUsFragment extends DataliciousFragment implements View.OnCli
                 break;
             case R.id.email:
                 openInquiry();
+                break;
             case R.id.contact:
                 openContactDetails();
+                break;
         }
     }
 

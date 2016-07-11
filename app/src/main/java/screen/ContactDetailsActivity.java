@@ -13,5 +13,6 @@ public class ContactDetailsActivity extends DataliciousActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         getSupportFragmentManager().beginTransaction().replace(R.id.content, new ContactDetailsFragment()).commit();
+        setTitle("Contact Us");
     }
 }

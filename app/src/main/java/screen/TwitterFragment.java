@@ -133,7 +133,7 @@ public class TwitterFragment extends ListFragment implements ApiCallback {
         int pageNumber = Integer.parseInt(account[2]);
         ApiRequest.getStringResponse(getContext(), TWITTER_STREAM_URL + account[1] + "&page=" + pageNumber,
                 this, ApiRequest.MethodTypes.GET, TWITTER_FEED_TAG, null, headers, null);
-        if (pageNumber < 4) {
+        if (pageNumber < 3) {
             getAuthToken(account[1], pageNumber + 1);
         }
     }
